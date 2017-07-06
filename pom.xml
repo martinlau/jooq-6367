@@ -28,6 +28,7 @@
     <flyway.user>${database.user}</flyway.user>
     <!-- jooq-codegen-maven -->
     <jooq.package-name>com.example</jooq.package-name>
+<!-- <jooq.outputSchemaToDefault>true</jooq.outputSchemaToDefault> -->
   </properties>
 
   <dependencyManagement>
@@ -104,7 +105,7 @@
               <database>
                 <inputSchema>${database.schema}</inputSchema>
                 <name>org.jooq.util.postgres.PostgresDatabase</name>
-                <outputSchemaToDefault>true</outputSchemaToDefault>
+                <outputSchemaToDefault>${jooq.outputSchemaToDefault}</outputSchemaToDefault>
               </database>
               <target>
                 <packageName>${jooq.package-name}</packageName>

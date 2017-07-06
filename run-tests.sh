@@ -17,6 +17,11 @@ JOOQ_VERSIONS=(
 	"3.8.7"
 )
 
+JOOQ_OUTPUT_SCHEMA_TO_DEFAULT_FLAGS=(
+	"true"
+	"false"
+)
+
 rm -rf target target-*
 
 for POSTGRES_VERSION in ${POSTGRES_VERSIONS[@]}; do
@@ -37,15 +42,20 @@ for POSTGRES_VERSION in ${POSTGRES_VERSIONS[@]}; do
 
 	for JOOQ_VERSION in ${JOOQ_VERSIONS[@]}; do
 
-		echo ">> "
-		echo ">> Running with Postgres = ${POSTGRES_VERSION}; jOOQ = ${JOOQ_VERSION}"
-		echo ">> "
+		for JOOQ_OUTPUT_SCHEMA_TO_DEFAULT_FLAG in ${JOOQ_OUTPUT_SCHEMA_TO_DEFAULT_FLAGS[@]}; do
 
-		mvn clean install \
-			-Djooq.version=${JOOQ_VERSION} \
-			-Ddatabase.host=${POSTGRES_HOST}:${POSTGRES_PORT}
+			echo ">> "
+			echo ">> Running with Postgres = ${POSTGRES_VERSION}; jOOQ = ${JOOQ_VERSION}; Output Schema to Default: ${JOOQ_OUTPUT_SCHEMA_TO_DEFAULT_FLAG}"
+			echo ">> "
 
-		mv target target-${POSTGRES_VERSION}-${JOOQ_VERSION}
+			mvn clean install \
+				-Djooq.version=${JOOQ_VERSION} \
+				-Djooq.outputSchemaToDefault=${JOOQ_OUTPUT_SCHEMA_TO_DEFAULT_FLAG} \
+				-Ddatabase.host=${POSTGRES_HOST}:${POSTGRES_PORT}
+
+			mv target target-${POSTGRES_VERSION}-${JOOQ_VERSION}-${JOOQ_OUTPUT_SCHEMA_TO_DEFAULT_FLAG}
+
+		done
 
 	done
 

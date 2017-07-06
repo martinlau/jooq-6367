@@ -1,0 +1,10 @@
+com/example/tables/records/SchemaVersionRecord.class
+com/example/Public.class
+com/example/Keys$UniqueKeys0.class
+com/example/tables/records/TestRecord.class
+com/example/tables/SchemaVersion.class
+com/example/tables/Test.class
+com/example/DefaultCatalog.class
+com/example/Tables.class
+com/example/enums/TestStatus.class
+com/example/Keys.class
