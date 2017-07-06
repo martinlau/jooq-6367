@@ -45,7 +45,7 @@ for POSTGRES_VERSION in ${POSTGRES_VERSIONS[@]}; do
 		for JOOQ_OUTPUT_SCHEMA_TO_DEFAULT_FLAG in ${JOOQ_OUTPUT_SCHEMA_TO_DEFAULT_FLAGS[@]}; do
 
 			echo ">> "
-			echo ">> Running with Postgres = ${POSTGRES_VERSION}; jOOQ = ${JOOQ_VERSION}; Output Schema to Default: ${JOOQ_OUTPUT_SCHEMA_TO_DEFAULT_FLAG}"
+			echo ">> Running with Postgres = ${POSTGRES_VERSION}; jOOQ = ${JOOQ_VERSION}; Output Schema to Default = ${JOOQ_OUTPUT_SCHEMA_TO_DEFAULT_FLAG}"
 			echo ">> "
 
 			mvn clean install \
