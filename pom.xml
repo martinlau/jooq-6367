@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>jooq-6367</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <flyway.version>4.2.0</flyway.version>
+<!-- <jooq.version>3.9.3</jooq.version> -->
+    <postgresql.version>42.1.1</postgresql.version>
+    <!-- flyway-maven-plugin, jooq-codegen-maven -->
+    <database.driver>org.postgresql.Driver</database.driver>
+    <database.password>test</database.password>
+    <database.schema>public</database.schema>
+<!-- <database.host>localhost:5432</database.host> -->
+    <database.url>jdbc:postgresql://${database.host}/test</database.url>
+    <database.user>test</database.user>
+    <!-- flyway-maven-plugin -->
+    <flyway.driver>${database.driver}</flyway.driver>
+    <flyway.password>${database.password}</flyway.password>
+    <flyway.schemas>${database.schema}</flyway.schemas>
+    <flyway.url>${database.url}</flyway.url>
+    <flyway.user>${database.user}</flyway.user>
+    <!-- jooq-codegen-maven -->
+    <jooq.package-name>com.example</jooq.package-name>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-core</artifactId>
+        <version>${flyway.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jooq</groupId>
+        <artifactId>jooq</artifactId>
+        <version>${jooq.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>${postgresql.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jooq</groupId>
+      <artifactId>jooq</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.flywaydb</groupId>
+          <artifactId>flyway-maven-plugin</artifactId>
+          <version>${flyway.version}</version>
+          <executions>
+            <execution>
+              <id>clean</id>
+              <goals>
+                <goal>clean</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>migrate</id>
+              <goals>
+                <goal>migrate</goal>
+              </goals>
+              <phase>generate-sources</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.jooq</groupId>
+          <artifactId>jooq-codegen-maven</artifactId>
+          <version>${jooq.version}</version>
+          <configuration>
+            <logging>DEBUG</logging>
+            <jdbc>
+              <driver>${database.driver}</driver>
+              <password>${database.password}</password>
+              <url>${database.url}</url>
+              <user>${database.user}</user>
+            </jdbc>
+            <generator>
+              <database>
+                <inputSchema>${database.schema}</inputSchema>
+                <name>org.jooq.util.postgres.PostgresDatabase</name>
+                <outputSchemaToDefault>true</outputSchemaToDefault>
+              </database>
+              <target>
+                <packageName>${jooq.package-name}</packageName>
+              </target>
+            </generator>
+          </configuration>
+          <executions>
+            <execution>
+              <id>generate</id>
+              <goals>
+                <goal>generate</goal>
+              </goals>
+              <phase>generate-sources</phase>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jooq</groupId>
+        <artifactId>jooq-codegen-maven</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
